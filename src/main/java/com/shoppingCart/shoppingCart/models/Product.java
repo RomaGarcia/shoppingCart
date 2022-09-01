@@ -10,6 +10,7 @@ import java.util.Set;
 
 @Entity
 public class Product {
+
     @Id
     @GeneratedValue (strategy= GenerationType.AUTO, generator="native")
     @GenericGenerator(name="native", strategy="native")
@@ -110,4 +111,5 @@ public class Product {
                 ", status=" + status +
                 '}';
     }
+
 }
