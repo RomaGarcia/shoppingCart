@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Categories {
+public class Category {
     @Id
     @GeneratedValue (strategy= GenerationType.AUTO, generator = "native")
     @GenericGenerator(name="native",strategy = "native")
@@ -15,10 +15,12 @@ public class Categories {
     private String name;
     @OneToMany ( fetch = FetchType.EAGER)
     private Set<Product> product=new HashSet<>();
-    public Categories() {
+    private boolean status;
+    public Category() {
     }
 
-    public Categories(String name) {
+    public Category(String name) {
+        this.status=true;
         this.name = name;
     }
 
