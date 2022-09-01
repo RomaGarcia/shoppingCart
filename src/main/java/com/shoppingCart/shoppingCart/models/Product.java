@@ -3,9 +3,7 @@ package com.shoppingCart.shoppingCart.models;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -20,13 +18,13 @@ public class Product {
     private String description;
     private boolean status;
     @ManyToOne
-    private Categories category;
+    private Category category;
     @OneToMany ( fetch=FetchType.EAGER)
     private Set<ProductLoad> productLoads=new HashSet<>();
     public Product() {
     }
 
-    public Product(String name, Double price, Integer stock, String description, Categories category) {
+    public Product(String name, Double price, Integer stock, String description, Category category) {
         this.name = name;
         this.price = price;
         this.stock = stock;
@@ -35,11 +33,11 @@ public class Product {
         this.category=category;
     }
 
-    public Categories getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(Categories category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
