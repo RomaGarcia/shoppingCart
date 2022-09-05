@@ -20,7 +20,7 @@ public class ClientDTO {
 
     private String address;
 
-    private String status;
+    private Boolean status;
 
     private Set<ShoppingCartDTO> shoppingCartDTO = new HashSet<>();
 
@@ -76,11 +76,11 @@ public class ClientDTO {
         this.address = address;
     }
 
-    public String getStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 
