@@ -25,7 +25,7 @@ public class Client {
 
     private String address;
 
-    private String status;
+    private Boolean status;
 
     @OneToMany(mappedBy= "client", fetch = FetchType.EAGER)
     private Set<ShoppingCart> shoppingCart = new HashSet<>();
@@ -34,13 +34,13 @@ public class Client {
     public Client() {
     }
 
-    public Client(String firstName, String lastName, String email, String password, String address, String status) {
+    public Client(String firstName, String lastName, String email, String password, String address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.address = address;
-        this.status = status;
+        this.status = true;
     }
 
     public Long getId() {
@@ -91,11 +91,11 @@ public class Client {
         this.address = address;
     }
 
-    public String getStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 
