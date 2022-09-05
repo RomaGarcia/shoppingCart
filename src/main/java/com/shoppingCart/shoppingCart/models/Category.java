@@ -24,6 +24,14 @@ public class Category {
         this.name = name;
     }
 
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
     public Set<Product> getProduct() {
         return product;
     }
