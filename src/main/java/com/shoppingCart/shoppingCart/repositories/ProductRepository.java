@@ -11,4 +11,5 @@ import java.util.Set;
 @RepositoryRestResource
 public interface ProductRepository extends JpaRepository<Product, Long> {
     public Set<Product> findByStatusAndStockGreaterThan(boolean statusRequired, Integer stockRequired);
+
 }
