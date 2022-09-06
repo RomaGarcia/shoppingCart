@@ -19,11 +19,11 @@ public class ClientController {
     @Autowired
     public ClientService clientService;
 
-    @GetMapping("api/clients")
+    @GetMapping("/api/clients")
     public Set<ClientDTO> getClients(){
         return clientService.getClients();
     }
-    @GetMapping("api/clients/all")
+    @GetMapping("/api/clients/all")
     public Set<ClientDTO> getClientsAll(){
         return clientService.getClientsAll();
     }

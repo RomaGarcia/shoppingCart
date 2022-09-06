@@ -2,7 +2,9 @@ package com.shoppingCart.shoppingCart.services.implementations;
 
 import com.shoppingCart.shoppingCart.dtos.ClientDTO;
 import com.shoppingCart.shoppingCart.models.Client;
+import com.shoppingCart.shoppingCart.models.ShoppingCart;
 import com.shoppingCart.shoppingCart.repositories.ClientRepository;
+import com.shoppingCart.shoppingCart.repositories.ShoppingCartRepository;
 import com.shoppingCart.shoppingCart.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +23,11 @@ public class ClientServiceImpl implements ClientService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public ClientRepository clientRepository;
+    private ClientRepository clientRepository;
+
+    @Autowired
+    private ShoppingCartRepository shoppingCartRepository;
+
     @Override
     public Set<ClientDTO> getClients() {
         return clientRepository.findByStatus(true).stream().map(ClientDTO::new).collect((toSet()));
@@ -45,7 +51,8 @@ public class ClientServiceImpl implements ClientService {
         Client client = new Client(firstName, lastName, email, passwordEncoder.encode(password),address);
         clientRepository.save(client);
 
-        //CREAR CARRITO VACION Y ASIGNARSELO ????
+        ShoppingCart shoppingCart1 = new ShoppingCart(client);
+        shoppingCartRepository.save(shoppingCart1);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

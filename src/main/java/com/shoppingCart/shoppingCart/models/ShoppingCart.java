@@ -3,6 +3,8 @@ package com.shoppingCart.shoppingCart.models;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class ShoppingCart {
@@ -10,9 +12,11 @@ public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name= "native", strategy = "native")
-    public Long id;
+    private Long id;
 
-    public Double price;
+    private Double price;
+
+    private Boolean status;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="client_id")
@@ -20,12 +24,19 @@ public class ShoppingCart {
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="ticket_id")
-    private ShoppingCart shoppingCart;
+    private Ticket ticket;
+
+    @OneToMany(fetch = FetchType.EAGER)
+   private Set<ProductLoad> productLoans = new HashSet<>();
 
 
     public ShoppingCart() {
     }
 
+    public ShoppingCart(Client client) {
+        this.client = client;
+        this.status= true;
+    }
 
     public ShoppingCart(Double price) {
         this.price = price;
@@ -56,12 +67,28 @@ public class ShoppingCart {
         this.client = client;
     }
 
-    public ShoppingCart getShoppingCart() {
-        return shoppingCart;
+    public Ticket getTicket() {
+        return ticket;
     }
 
-    public void setShoppingCart(ShoppingCart shoppingCart) {
-        this.shoppingCart = shoppingCart;
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
+    }
+
+    public Set<ProductLoad> getProductLoans() {
+        return productLoans;
+    }
+
+    public void setProductLoans(Set<ProductLoad> productLoans) {
+        this.productLoans = productLoans;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 
     @Override

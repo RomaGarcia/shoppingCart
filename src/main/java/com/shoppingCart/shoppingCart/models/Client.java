@@ -28,7 +28,7 @@ public class Client {
     private Boolean status;
 
     @OneToMany(mappedBy= "client", fetch = FetchType.EAGER)
-    private Set<ShoppingCart> shoppingCart = new HashSet<>();
+    private Set<ShoppingCart> shoppingCartList = new HashSet<>();
 
 
     public Client() {
@@ -100,11 +100,16 @@ public class Client {
     }
 
     public Set<ShoppingCart> getShoppingCart() {
-        return shoppingCart;
+        return shoppingCartList;
     }
 
     public void setShoppingCart(Set<ShoppingCart> shoppingCart) {
-        this.shoppingCart = shoppingCart;
+        this.shoppingCartList = shoppingCart;
+    }
+
+    public void addShoppingCart(ShoppingCart shoppingCart){
+        shoppingCart.setClient(this);
+        shoppingCartList.add(shoppingCart);
     }
 
     @Override
