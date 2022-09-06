@@ -18,7 +18,7 @@ public class Product {
     private Integer stock;
     private String description;
     private boolean status;
-    @ManyToOne
+    @ManyToOne ( fetch = FetchType.EAGER)
     private Category category;
     @OneToMany ( fetch=FetchType.EAGER)
     private Set<ProductLoad> productLoads=new HashSet<>();

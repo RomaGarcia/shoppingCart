@@ -10,15 +10,27 @@ public class ProductLoad {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name="native", strategy = "native")
     private Long id;
-    @ManyToOne
+    @ManyToOne( fetch = FetchType.EAGER)
     private Product product;
     private Integer amount;
+    @ManyToOne ( fetch = FetchType.EAGER)
+    private ShoppingCart shoppingCart;
+
     public ProductLoad() {
     }
 
-    public ProductLoad(Product product, Integer amount) {
+    public ProductLoad(Product product, Integer amount, ShoppingCart shoppingCart) {
+        this.shoppingCart=shoppingCart;
         this.product = product;
         this.amount = amount;
+    }
+
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
+    }
+
+    public void setShoppingCart(ShoppingCart shoppingCart) {
+        this.shoppingCart = shoppingCart;
     }
 
     public Long getId() {
