@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 public class ClientDTO {
 
+    private Long id;
     private String firstName;
 
     private String lastName;
@@ -27,6 +28,7 @@ public class ClientDTO {
 
 
     public ClientDTO(Client client) {
+        this.id= client.getId();
         this.firstName=client.getFirstName();
         this.lastName=client.getLastName();
         this.email= client.getEmail();
@@ -34,6 +36,14 @@ public class ClientDTO {
         this.status= client.getStatus();
         this.shoppingCartDTO=client.getShoppingCart().stream().map(ShoppingCartDTO::new).collect(Collectors.toSet());
 
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstName() {

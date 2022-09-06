@@ -1,7 +1,9 @@
 package com.shoppingCart.shoppingCart.services.implementations;
 
+import com.shoppingCart.shoppingCart.dtos.ClientCreateDTO;
 import com.shoppingCart.shoppingCart.dtos.ClientDTO;
 import com.shoppingCart.shoppingCart.models.Client;
+import com.shoppingCart.shoppingCart.models.Product;
 import com.shoppingCart.shoppingCart.models.ShoppingCart;
 import com.shoppingCart.shoppingCart.repositories.ClientRepository;
 import com.shoppingCart.shoppingCart.repositories.ShoppingCartRepository;
@@ -55,5 +57,33 @@ public class ClientServiceImpl implements ClientService {
         shoppingCartRepository.save(shoppingCart1);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @Override
+    public void setStatus(Long id) {
+        Client client = clientRepository.findById(id).get();
+        client.setStatus(!client.getStatus());
+        clientRepository.save(client);
+    }
+
+    @Override
+    public void update(Long id, ClientCreateDTO clientCreateDTO) {
+        Client client= clientRepository.findById(id).get();
+        if (clientCreateDTO.getFirstName()!=null){
+            client.setFirstName(clientCreateDTO.getFirstName());
+        }
+        if (clientCreateDTO.getLastName()!=null){
+            client.setLastName(clientCreateDTO.getLastName());
+        }
+        if (clientCreateDTO.getEmail()!=null){
+            client.setEmail(clientCreateDTO.getEmail());
+        }
+        if (clientCreateDTO.getPassword()!=null){
+            client.setPassword(clientCreateDTO.getPassword());
+        }
+        if (clientCreateDTO.getAddress()!=null){
+            client.setAddress(clientCreateDTO.getAddress());
+        }
+        clientRepository.save(client);
     }
 }
