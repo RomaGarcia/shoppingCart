@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +30,10 @@ public class ShoppingCartController {
     public ShoppingCartDTO getShoppingCartById(@PathVariable Long id, Authentication authentication){
         return shoppingCartService.getShoppingCartById(id);
     }
-
+    @Transactional
+    @PostMapping("/shoppingCart/buy")
+    public ResponseEntity<Object> buy(Authentication authentication, @RequestParam Long id, @RequestParam String wayToPay, @RequestParam String cardNumber){
+        return shoppingCartService.buy(id, wayToPay, cardNumber);
+    }
 
 }

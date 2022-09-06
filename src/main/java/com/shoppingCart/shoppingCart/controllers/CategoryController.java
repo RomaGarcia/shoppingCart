@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 
 @RestController
+@RequestMapping("/api")
 public class CategoryController {
 
     @Autowired
@@ -31,7 +32,7 @@ public class CategoryController {
     public Set<CategoryDTO> read(Authentication authentication){
         return categoryService.read();
     }
-    @PatchMapping("/admin/category{id}")
+    @PatchMapping("/admin/category/{id}")
     public void setStatus(Authentication authentication, @PathVariable Long id){
 
     }

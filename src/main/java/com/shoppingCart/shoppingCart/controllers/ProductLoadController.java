@@ -13,8 +13,8 @@ public class ProductLoadController {
     public ProductLoadService productLoadService;
 
     @PostMapping("/shoppingcarts/productloads/add")
-    public ResponseEntity<Object> add(@RequestBody ProductLoadCreateDTO productLoadCreateDTO){
-        return productLoadService.add(productLoadCreateDTO);
+    public ResponseEntity<Object> add(@RequestParam Long productId, @RequestParam Integer amount, @RequestParam Long shoppingCartId){
+        return productLoadService.add(productId, amount, shoppingCartId);
     }
     @PatchMapping("/shoppingcarts/productloads/remove{id}")
     public ResponseEntity<Object> remove(@PathVariable Long id){
@@ -26,4 +26,5 @@ public class ProductLoadController {
         productLoadService.setAmount(id, amount);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
+
 }
