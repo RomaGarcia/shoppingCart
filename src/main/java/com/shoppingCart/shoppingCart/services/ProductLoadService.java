@@ -4,5 +4,11 @@ import com.shoppingCart.shoppingCart.dtos.ProductLoadCreateDTO;
 import org.springframework.http.ResponseEntity;
 
 public interface ProductLoadService {
-    ResponseEntity<Object> create(ProductLoadCreateDTO productLoadCreateDTO);
+
+
+    ResponseEntity<Object> add(ProductLoadCreateDTO productLoadCreateDTO);
+
+    void setAmount(Long id, Integer amount);
+
+    void remove(Long id);
 }
