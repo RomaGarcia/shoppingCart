@@ -49,4 +49,14 @@ public class ProductLoadCreateDTO {
     public void setAmount(Integer amount) {
         this.amount = amount;
     }
+
+    @Override
+    public String toString() {
+        return "ProductLoadCreateDTO{" +
+                "id=" + id +
+                ", product=" + product +
+                ", amount=" + amount +
+                ", shoppingCart=" + shoppingCart +
+                '}';
+    }
 }

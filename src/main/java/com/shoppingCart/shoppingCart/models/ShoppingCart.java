@@ -91,6 +91,10 @@ public class ShoppingCart {
         this.status = status;
     }
 
+    public void addProductLoad(ProductLoad productLoad){
+        this.productLoans.add(productLoad);
+    }
+
     @Override
     public String toString() {
         return "ShoppingCart{" +

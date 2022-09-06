@@ -51,11 +51,11 @@ public class ClientServiceImpl implements ClientService {
         }
 
         Client client = new Client(firstName, lastName, email, passwordEncoder.encode(password),address);
-        clientRepository.save(client);
+
 
         ShoppingCart shoppingCart1 = new ShoppingCart(client);
         shoppingCartRepository.save(shoppingCart1);
-
+        clientRepository.save(client);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

@@ -6,7 +6,9 @@ import org.springframework.http.ResponseEntity;
 public interface ProductLoadService {
 
 
-    ResponseEntity<Object> add(ProductLoadCreateDTO productLoadCreateDTO);
+
+
+    ResponseEntity<Object> add(Long productId, Integer amount, Long shoppingCartId);
 
     void setAmount(Long id, Integer amount);
 

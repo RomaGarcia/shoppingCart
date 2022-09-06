@@ -2,19 +2,23 @@ package com.shoppingCart.shoppingCart.services.implementations;
 
 import com.shoppingCart.shoppingCart.dtos.ShoppingCartDTO;
 import com.shoppingCart.shoppingCart.models.Client;
+import com.shoppingCart.shoppingCart.models.Product;
+import com.shoppingCart.shoppingCart.models.ProductLoad;
 import com.shoppingCart.shoppingCart.models.ShoppingCart;
 import com.shoppingCart.shoppingCart.repositories.ClientRepository;
+import com.shoppingCart.shoppingCart.repositories.ProductRepository;
 import com.shoppingCart.shoppingCart.repositories.ShoppingCartRepository;
+import com.shoppingCart.shoppingCart.services.ProductService;
 import com.shoppingCart.shoppingCart.services.ShoppingCartService;
+import com.shoppingCart.shoppingCart.services.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.Set;
 
 import static java.util.stream.Collectors.toList;
 
@@ -26,6 +30,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
   @Autowired
   ClientRepository clientRepository;
+  @Autowired
+  private TicketService ticketService;
+  @Autowired
+  private ProductService productService;
+  @Autowired
+  private ProductRepository productRepository;
 
 
   @Override
@@ -43,6 +53,41 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
   public void postShoppingCart(Authentication authentication) {
     Client clientConnected = clientRepository.findByEmail(authentication.getName());
 
+  }
+
+  @Override
+  public void remove(ShoppingCart shoppingCart, ProductLoad productLoad){
+    shoppingCart.getProductLoans().remove(productLoad);
+    shoppingCartRepository.save(shoppingCart);
+  }
+  @Override
+  public ResponseEntity<Object> buy(Long id, String wayToPay, String cardNumber){
+    //validar card number
+      ShoppingCart shoppingCart= shoppingCartRepository.findById(id).get();
+      ticketService.create(shoppingCart, wayToPay);
+    Set<ProductLoad> productLoads=shoppingCart.getProductLoans();
+    if (productLoads==null) {
+      return new ResponseEntity<>("There are no product in the cart", HttpStatus.FORBIDDEN);
+    }
+    //  prdouctService.discount(productLoads);
+    System.out.println(productLoads);
+    for (ProductLoad productLoad: productLoads) {
+      Product product=productLoad.getProduct();
+      if (productLoad.getAmount()>product.getStock()) {
+        return new ResponseEntity<>("There is not enough stock of "+product.getName(), HttpStatus.FORBIDDEN);
+      }
+      System.out.println(product);
+      System.out.println(productLoad.getAmount());
+
+      product.setStock(product.getStock()-productLoad.getAmount());
+      System.out.println(product);
+      productRepository.save(product);
+    }
+    shoppingCart.setStatus(false);
+    ShoppingCart newShoppingCart= new ShoppingCart(shoppingCart.getClient());
+    shoppingCartRepository.save(shoppingCart);
+    shoppingCartRepository.save(newShoppingCart);
+    return new ResponseEntity<>("Compra realizada", HttpStatus.ACCEPTED);
   }
 
 

@@ -3,6 +3,8 @@ package com.shoppingCart.shoppingCart.services.implementations;
 import com.shoppingCart.shoppingCart.dtos.ProductCreateDTO;
 import com.shoppingCart.shoppingCart.dtos.ProductDTO;
 import com.shoppingCart.shoppingCart.models.Product;
+import com.shoppingCart.shoppingCart.models.ProductLoad;
+import com.shoppingCart.shoppingCart.models.ShoppingCart;
 import com.shoppingCart.shoppingCart.repositories.ProductRepository;
 import com.shoppingCart.shoppingCart.services.CategoryService;
 import com.shoppingCart.shoppingCart.services.ProductService;
@@ -63,6 +65,9 @@ public class ProductServiceImpl implements ProductService {
     public void setStatus(Long id){
         Product product=productRepository.findById(id).get();
         product.setStatus(!product.isStatus());
+        productRepository.save(product);
     }
+
+
 
 }

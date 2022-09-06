@@ -26,9 +26,10 @@ public class Ticket {
     }
 
 
-    public Ticket(LocalDate date, String wayToPay) {
+    public Ticket(LocalDate date, String wayToPay, ShoppingCart shoppingCart) {
         this.date = date;
         this.wayToPay = wayToPay;
+        this.shoppingCart=shoppingCart;
     }
 
 
