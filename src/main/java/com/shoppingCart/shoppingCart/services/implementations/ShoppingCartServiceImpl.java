@@ -64,25 +64,23 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
   public ResponseEntity<Object> buy(Long id, String wayToPay, String cardNumber){
     //validar card number
       ShoppingCart shoppingCart= shoppingCartRepository.findById(id).get();
-      ticketService.create(shoppingCart, wayToPay);
+
     Set<ProductLoad> productLoads=shoppingCart.getProductLoans();
     if (productLoads==null) {
       return new ResponseEntity<>("There are no product in the cart", HttpStatus.FORBIDDEN);
     }
     //  prdouctService.discount(productLoads);
-    System.out.println(productLoads);
+    ticketService.create(shoppingCart, wayToPay);
+
     for (ProductLoad productLoad: productLoads) {
       Product product=productLoad.getProduct();
       if (productLoad.getAmount()>product.getStock()) {
         return new ResponseEntity<>("There is not enough stock of "+product.getName(), HttpStatus.FORBIDDEN);
       }
-      System.out.println(product);
-      System.out.println(productLoad.getAmount());
-
-      product.setStock(product.getStock()-productLoad.getAmount());
-      System.out.println(product);
-      productRepository.save(product);
+         product.setStock(product.getStock()-productLoad.getAmount());
+         productRepository.save(product);
     }
+
     shoppingCart.setStatus(false);
     ShoppingCart newShoppingCart= new ShoppingCart(shoppingCart.getClient());
     shoppingCartRepository.save(shoppingCart);
