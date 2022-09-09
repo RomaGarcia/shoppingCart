@@ -4,6 +4,7 @@ import com.shoppingCart.shoppingCart.dtos.ProductCreateDTO;
 import com.shoppingCart.shoppingCart.dtos.ProductDTO;
 import com.shoppingCart.shoppingCart.models.Product;
 import com.shoppingCart.shoppingCart.models.ProductLoad;
+import com.shoppingCart.shoppingCart.models.ShoppingCart;
 import com.shoppingCart.shoppingCart.repositories.ProductRepository;
 import com.shoppingCart.shoppingCart.services.CategoryService;
 import com.shoppingCart.shoppingCart.services.ProductService;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
-import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 @Service
@@ -67,18 +67,7 @@ public class ProductServiceImpl implements ProductService {
         product.setStatus(!product.isStatus());
         productRepository.save(product);
     }
-    @Override
-    public boolean discount(Set<ProductLoad> productLoads){
-        for (ProductLoad productLoad: productLoads) {
-            Product product=productLoad.getProduct();
-            if (productLoad.getAmount()>product.getStock()) {
-                return false;
-            }
-            product.setStock(product.getStock()-productLoad.getAmount());
 
-        }
-        productRepository.saveAll(productLoads.stream().map(productLoad -> productLoad.getProduct()).collect(toList()));
-        return true;
-    }
+
 
 }

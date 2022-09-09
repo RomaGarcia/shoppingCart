@@ -14,7 +14,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 public class ShoppingCartApplication {
@@ -27,16 +26,11 @@ public class ShoppingCartApplication {
 	}
 
 	@Bean
-	public RestTemplate getRestTemplate() {
-		return new RestTemplate();
-	}
-
-	@Bean
 	public CommandLineRunner initData(ClientRepository clientRepository, ProductRepository productRepository, CategoryRepository categoryRepository, ShoppingCartRepository shoppingCartRepository){
 		return (args) -> {
 
 			Client client1 = new Client("Agostina", "Macchi", "agosmac@hotmail.com", passwordEncoder.encode("1234"), "Av siempreviva");
-			Client client2 = new Client("Ramiro", "Rodriguez", "ramiro@admin.com", passwordEncoder.encode("12345"), "Av siempreviva");
+			Client client2 = new Client("Ramiro", "Rodriguez", "ramiro@hotmail.com", passwordEncoder.encode("12345"), "Av siempreviva");
 
 			clientRepository.save(client1);
 			clientRepository.save(client2);
@@ -50,9 +44,7 @@ public class ShoppingCartApplication {
 			Product product1 = new Product("Gaseosa", 200.00, 20, "coca-cola", category1);
 
 			productRepository.save(product1);
-			Product product2 = new Product("Gaseosa", 300.00, 20, "seven", category1);
 
-			productRepository.save(product2);
 			ShoppingCart shoppingCart1 = new ShoppingCart(client1);
 			shoppingCartRepository.save(shoppingCart1);
 			clientRepository.save(client1);

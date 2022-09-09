@@ -2,7 +2,6 @@ package com.shoppingCart.shoppingCart.services;
 
 import com.shoppingCart.shoppingCart.dtos.ProductCreateDTO;
 import com.shoppingCart.shoppingCart.dtos.ProductDTO;
-import com.shoppingCart.shoppingCart.models.ProductLoad;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Set;
@@ -17,6 +16,4 @@ public interface ProductService {
     void update(Long id, ProductCreateDTO productCreateDTO);
 
     void setStatus(Long id);
-
-    boolean discount(Set<ProductLoad> productLoads);
 }
