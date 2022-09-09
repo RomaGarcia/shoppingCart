@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api")
 public class ProductLoadController {
     @Autowired
     public ProductLoadService productLoadService;
@@ -16,12 +17,12 @@ public class ProductLoadController {
     public ResponseEntity<Object> add(@RequestParam Long productId, @RequestParam Integer amount, @RequestParam Long shoppingCartId){
         return productLoadService.add(productId, amount, shoppingCartId);
     }
-    @PatchMapping("/shoppingcarts/productloads/remove{id}")
+    @PatchMapping("/shoppingCarts/productLoads/remove{id}")
     public ResponseEntity<Object> remove(@PathVariable Long id){
         productLoadService.remove(id);
         return new ResponseEntity<>("removed", HttpStatus.ACCEPTED);
     }
-    @PatchMapping("shoppingcarts/productloads/setamount")
+    @PatchMapping("/shoppingCarts/productLoads/setAmount")
     public ResponseEntity<Object> setAmount(@RequestParam Long id, @RequestParam Integer amount){
         productLoadService.setAmount(id, amount);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
