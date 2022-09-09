@@ -1,5 +1,6 @@
 package com.shoppingCart.shoppingCart.controllers;
 
+import com.shoppingCart.shoppingCart.dtos.CardValidationDTO;
 import com.shoppingCart.shoppingCart.dtos.ShoppingCartDTO;
 import com.shoppingCart.shoppingCart.models.ShoppingCart;
 import com.shoppingCart.shoppingCart.services.ShoppingCartService;
@@ -16,6 +17,7 @@ import java.util.Set;
 import static java.util.stream.Collectors.toList;
 
 @RestController
+@RequestMapping("/api")
 public class ShoppingCartController {
 
     @Autowired
@@ -32,8 +34,8 @@ public class ShoppingCartController {
     }
     @Transactional
     @PostMapping("/shoppingCart/buy")
-    public ResponseEntity<Object> buy(Authentication authentication, @RequestParam Long id, @RequestParam String wayToPay, @RequestParam String cardNumber){
-        return shoppingCartService.buy(id, wayToPay, cardNumber);
+    public ResponseEntity<Object> buy(Authentication authentication, @RequestParam Long id, @RequestParam String wayToPay, @RequestBody CardValidationDTO cardValidationDTO){
+        return shoppingCartService.buy(id, wayToPay, cardValidationDTO);
     }
 
 }

@@ -1,7 +1,8 @@
 package com.shoppingCart.shoppingCart.services;
 
 import com.shoppingCart.shoppingCart.models.ShoppingCart;
+import com.shoppingCart.shoppingCart.models.Ticket;
 
 public interface TicketService {
-    void create(ShoppingCart shoppingCart, String wayToPay);
+    Ticket create(ShoppingCart shoppingCart, String wayToPay);
 }

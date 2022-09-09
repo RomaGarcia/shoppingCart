@@ -15,9 +15,11 @@ public class TicketServiceImpl implements TicketService {
     private TicketRepository ticketRepository;
 
     @Override
-    public void create(ShoppingCart shoppingCart, String wayToPay){
+    public Ticket create(ShoppingCart shoppingCart, String wayToPay){
         Ticket ticket=new Ticket(LocalDate.now(), wayToPay, shoppingCart);
+
         ticketRepository.save(ticket);
+        return ticket;
     }
 
 }
