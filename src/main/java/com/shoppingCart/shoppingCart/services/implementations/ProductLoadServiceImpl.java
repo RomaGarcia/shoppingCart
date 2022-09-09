@@ -29,7 +29,7 @@ public class ProductLoadServiceImpl implements ProductLoadService {
         productLoadRepository.save(productLoad);
         shoppingCart.addProductLoad(productLoad);
         shoppingCartRepository.save(shoppingCart);
-
+        System.out.println(productLoad);
 
         return new ResponseEntity<>("añadido", HttpStatus.CREATED);
     }

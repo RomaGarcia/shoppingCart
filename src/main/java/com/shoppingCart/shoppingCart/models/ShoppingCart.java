@@ -36,7 +36,6 @@ public class ShoppingCart {
     public ShoppingCart(Client client) {
         this.client = client;
         this.status= true;
-        this.price=0.0;
     }
 
     public ShoppingCart(Double price) {
@@ -93,11 +92,8 @@ public class ShoppingCart {
     }
 
     public void addProductLoad(ProductLoad productLoad){
-        price=price+(productLoad.getAmount()*productLoad.getProduct().getPrice());
         this.productLoans.add(productLoad);
     }
-
-
 
     @Override
     public String toString() {

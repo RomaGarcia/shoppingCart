@@ -17,5 +17,5 @@ public interface ShoppingCartService {
 
     void remove(ShoppingCart shoppingCart, ProductLoad productLoad);
 
-    ResponseEntity<Object> buy(Long id, String cardNumber, String wayToPay);
+    ResponseEntity<Object> buy(Long id, String cardnumber, String wayToPay);
 }
