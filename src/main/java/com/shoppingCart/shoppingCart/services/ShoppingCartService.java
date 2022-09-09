@@ -1,5 +1,6 @@
 package com.shoppingCart.shoppingCart.services;
 
+import com.shoppingCart.shoppingCart.dtos.CardValidationDTO;
 import com.shoppingCart.shoppingCart.dtos.ShoppingCartDTO;
 import com.shoppingCart.shoppingCart.models.ProductLoad;
 import com.shoppingCart.shoppingCart.models.ShoppingCart;
@@ -17,5 +18,5 @@ public interface ShoppingCartService {
 
     void remove(ShoppingCart shoppingCart, ProductLoad productLoad);
 
-    ResponseEntity<Object> buy(Long id, String cardNumber, String wayToPay);
+    ResponseEntity<Object> buy(Long id, String wayToPay, CardValidationDTO cardValidationDTO);
 }

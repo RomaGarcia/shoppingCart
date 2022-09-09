@@ -1,5 +1,6 @@
 package com.shoppingCart.shoppingCart.services.implementations;
 
+import com.shoppingCart.shoppingCart.dtos.CardValidationDTO;
 import com.shoppingCart.shoppingCart.dtos.ShoppingCartDTO;
 import com.shoppingCart.shoppingCart.models.Client;
 import com.shoppingCart.shoppingCart.models.Product;
@@ -8,9 +9,11 @@ import com.shoppingCart.shoppingCart.models.ShoppingCart;
 import com.shoppingCart.shoppingCart.repositories.ClientRepository;
 import com.shoppingCart.shoppingCart.repositories.ProductRepository;
 import com.shoppingCart.shoppingCart.repositories.ShoppingCartRepository;
+import com.shoppingCart.shoppingCart.services.PaymentValidationService;
 import com.shoppingCart.shoppingCart.services.ProductService;
 import com.shoppingCart.shoppingCart.services.ShoppingCartService;
 import com.shoppingCart.shoppingCart.services.TicketService;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +40,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private PaymentValidationService  paymentValidationService;
+
 
     @Override
     public List<ShoppingCartDTO> getAllShoppingCart() {
@@ -62,8 +68,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public ResponseEntity<Object> buy(Long id, String wayToPay, String cardNumber) {
-        //validar card number
+    public ResponseEntity<Object> buy(Long id, String wayToPay, CardValidationDTO cardValidationDTO) {
+
+        String response= paymentValidationService.validation(cardValidationDTO);
+
+        if(!response.equals(null)){
+            return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+        }
+
         ShoppingCart shoppingCart = shoppingCartRepository.findById(id).get();
         Set<ProductLoad> productLoads = shoppingCart.getProductLoans();
 

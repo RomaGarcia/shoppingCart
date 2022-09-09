@@ -28,8 +28,7 @@ public class SendEmailServiceImpl implements SendEmailService {
 
         try {
 
-            SimpleMailMessage mailMessage
-                    = new SimpleMailMessage();
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
 
             mailMessage.setFrom(sender);
             mailMessage.setTo(details.getRecipient());
@@ -48,23 +47,18 @@ public class SendEmailServiceImpl implements SendEmailService {
     public String
     sendMailWithAttachment(EmailsDetails details)
     {
-        MimeMessage mimeMessage
-                = javaMailSender.createMimeMessage();
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper;
 
         try {
 
-            mimeMessageHelper
-                    = new MimeMessageHelper(mimeMessage, true);
+            mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
             mimeMessageHelper.setFrom(sender);
             mimeMessageHelper.setTo(details.getRecipient());
             mimeMessageHelper.setText(details.getMsgBody());
-            mimeMessageHelper.setSubject(
-                    details.getSubject());
+            mimeMessageHelper.setSubject(details.getSubject());
 
-            FileSystemResource file
-                    = new FileSystemResource(
-                    new File(details.getAttachment()));
+            FileSystemResource file = new FileSystemResource(new File(details.getAttachment()));
 
             mimeMessageHelper.addAttachment(file.getFilename(), file);
 
