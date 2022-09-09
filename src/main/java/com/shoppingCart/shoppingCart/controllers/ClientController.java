@@ -15,11 +15,11 @@ public class ClientController {
     @Autowired
     public ClientService clientService;
 
-    @GetMapping("/api/clients")
+    @GetMapping("/api/admin/clients")
     public Set<ClientDTO> getClients(){
         return clientService.getClients();
     }
-    @GetMapping("/api/clients/all")
+    @GetMapping("/api/admin/clients/all")
     public Set<ClientDTO> getClientsAll(){
         return clientService.getClientsAll();
     }
@@ -32,7 +32,7 @@ public class ClientController {
     public void update(@PathVariable Long id, @RequestBody ClientCreateDTO clientCreateDTO){
         clientService.update(id, clientCreateDTO);
     }
-    @PatchMapping("/api/clients/setstatus/{id}")
+    @PatchMapping("/api/admin/clients/setstatus/{id}")
     public void setStatus(@PathVariable Long id){
         System.out.println(id);
         clientService.setStatus(id);
