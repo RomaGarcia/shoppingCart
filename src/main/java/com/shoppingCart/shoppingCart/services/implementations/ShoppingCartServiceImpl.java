@@ -2,23 +2,14 @@ package com.shoppingCart.shoppingCart.services.implementations;
 
 import com.shoppingCart.shoppingCart.dtos.CardValidationDTO;
 import com.shoppingCart.shoppingCart.dtos.ShoppingCartDTO;
-import com.shoppingCart.shoppingCart.dtos.EmailsDetailsDTO;
-import com.shoppingCart.shoppingCart.models.Client;
-import com.shoppingCart.shoppingCart.models.Product;
-import com.shoppingCart.shoppingCart.models.ProductLoad;
-import com.shoppingCart.shoppingCart.models.ShoppingCart;
-import com.shoppingCart.shoppingCart.models.EmailsDetails;
+import com.shoppingCart.shoppingCart.models.*;
 import com.shoppingCart.shoppingCart.repositories.ClientRepository;
 import com.shoppingCart.shoppingCart.repositories.ProductRepository;
 import com.shoppingCart.shoppingCart.repositories.ShoppingCartRepository;
 import com.shoppingCart.shoppingCart.services.*;
-import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -102,7 +93,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
         EmailsDetails details = new EmailsDetails();
         Client client = shoppingCart.getClient();
-        Product product = new Product();
+        ProductLoad product = (ProductLoad) shoppingCart.getProductLoans();
 
         sendEmailService.sendSimpleMail(details, client, product);
 
