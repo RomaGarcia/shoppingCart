@@ -1,5 +1,6 @@
 package com.shoppingCart.shoppingCart.models;
 
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -12,19 +13,21 @@ public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name="native", strategy="native")
+    @ApiModelProperty(notes = "Client ID", example =  "1", required = true)
     public Long id;
-
+    @ApiModelProperty(notes = "Client First Name", example =  "Agostina", required = true)
     private String firstName;
-
+    @ApiModelProperty(notes = "Client Last Name", example =  "Macchi", required = true)
     private String lastName;
 
     @Column(unique = true)
+    @ApiModelProperty(notes = "Client Email", example =  "agosmac@hotmail.com", required = true)
     private String email;
 
     private String password;
-
+    @ApiModelProperty(notes = "Client Adress", example =  "Av. Siempreviva", required = true)
     private String address;
-
+    @ApiModelProperty(notes = "Client Status", example =  "true", required = true)
     private Boolean status;
 
     @OneToMany(mappedBy= "client", fetch = FetchType.EAGER)

@@ -13,7 +13,7 @@ public class ProductLoadController {
     @Autowired
     public ProductLoadService productLoadService;
 
-    @PostMapping("/shoppingcarts/productloads/add")
+    @PostMapping("/shoppingcarts/productLoads/add")
     public ResponseEntity<Object> add(@RequestParam Long productId, @RequestParam Integer amount, @RequestParam Long shoppingCartId){
         return productLoadService.add(productId, amount, shoppingCartId);
     }
