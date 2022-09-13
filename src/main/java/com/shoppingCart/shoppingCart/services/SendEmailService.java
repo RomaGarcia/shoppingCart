@@ -1,11 +1,12 @@
 package com.shoppingCart.shoppingCart.services;
 
-import com.shoppingCart.shoppingCart.dtos.EmailsDetailsDTO;
-import com.shoppingCart.shoppingCart.models.EmailsDetails;
+import com.shoppingCart.shoppingCart.models.*;
+
+import java.util.Set;
 
 public interface SendEmailService {
 
-    String sendSimpleMail(EmailsDetails details);
+    String sendSimpleMail(EmailsDetails details, Client client, Set<ProductLoad> product);
 
     String sendMailWithAttachment(EmailsDetails details);
 }

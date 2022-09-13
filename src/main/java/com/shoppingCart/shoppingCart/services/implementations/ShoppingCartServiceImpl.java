@@ -2,18 +2,11 @@ package com.shoppingCart.shoppingCart.services.implementations;
 
 import com.shoppingCart.shoppingCart.dtos.CardValidationDTO;
 import com.shoppingCart.shoppingCart.dtos.ShoppingCartDTO;
-import com.shoppingCart.shoppingCart.models.Client;
-import com.shoppingCart.shoppingCart.models.Product;
-import com.shoppingCart.shoppingCart.models.ProductLoad;
-import com.shoppingCart.shoppingCart.models.ShoppingCart;
+import com.shoppingCart.shoppingCart.models.*;
 import com.shoppingCart.shoppingCart.repositories.ClientRepository;
 import com.shoppingCart.shoppingCart.repositories.ProductRepository;
 import com.shoppingCart.shoppingCart.repositories.ShoppingCartRepository;
-import com.shoppingCart.shoppingCart.services.PaymentValidationService;
-import com.shoppingCart.shoppingCart.services.ProductService;
-import com.shoppingCart.shoppingCart.services.ShoppingCartService;
-import com.shoppingCart.shoppingCart.services.TicketService;
-import net.bytebuddy.asm.Advice;
+import com.shoppingCart.shoppingCart.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +36,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Autowired
     private PaymentValidationService  paymentValidationService;
 
+    @Autowired
+    private SendEmailService sendEmailService;
 
     @Override
     public List<ShoppingCartDTO> getAllShoppingCart() {
@@ -96,8 +91,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         shoppingCartRepository.save(shoppingCart);
         shoppingCartRepository.save(newShoppingCart);
 
+        EmailsDetails details = new EmailsDetails();
+        Client client = shoppingCart.getClient();
+        ProductLoad product = (ProductLoad) shoppingCart.getProductLoans();
+
+        sendEmailService.sendSimpleMail(details, client, product);
+
         return new ResponseEntity<>("Compra realizada", HttpStatus.ACCEPTED);
     }
-
-
 }
