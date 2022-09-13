@@ -9,7 +9,7 @@ public class ProductDTO {
     private Double price;
     private Integer stock;
     private String description;
-    private Category category;
+    private String category;
 
     public ProductDTO() {
     }
@@ -20,7 +20,7 @@ public class ProductDTO {
         this.price = product.getPrice();
         this.stock = product.getStock();
         this.description = product.getDescription();
-        this.category = product.getCategory();
+        this.category = product.getCategory().getName();
     }
 
     public Long getId() {
@@ -63,11 +63,11 @@ public class ProductDTO {
         this.description = description;
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 }
