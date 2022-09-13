@@ -1,7 +1,7 @@
 package com.shoppingCart.shoppingCart.services.implementations;
 
+import com.shoppingCart.shoppingCart.models.*;
 import com.shoppingCart.shoppingCart.services.SendEmailService;
-import com.shoppingCart.shoppingCart.models.EmailsDetails;
 import com.shoppingCart.shoppingCart.dtos.EmailsDetailsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,29 +23,37 @@ public class SendEmailServiceImpl implements SendEmailService {
 
     @Value("${spring.mail.username}") private String sender;
 
-    public String sendSimpleMail(EmailsDetails details)
-    {
-
+    public String sendSimpleMail(EmailsDetails details, Client client, Product product) {
         try {
 
             SimpleMailMessage mailMessage = new SimpleMailMessage();
 
             mailMessage.setFrom(sender);
-            mailMessage.setTo(details.getRecipient());
-            mailMessage.setText(details.getMsgBody());
-            mailMessage.setSubject(details.getSubject());
+            mailMessage.setTo(details.getRecipient()/*client.getEmail()*/);
+            mailMessage.setText("MARKETPLACE/E-COMMERCE" + "\n" +
+                    "--------------------------------" + "\n" +
+                    "TICKET" + "\n" +
+                    "--------------------------------" + "\n" +
+                    client.getFirstName() + " " + client.getLastName() + "\n" +
+                    client.getAddress() + "\n" +
+                    "--------------------------------" + "\n" +
+
+                    product.getStock() + " x " + product.getPrice() + "\n" +
+                    product.getCategory() + "\n" +
+                    product.getDescription() + " " + product.getName());
+
+            mailMessage.setSubject("Ticket de compra");
 
             javaMailSender.send(mailMessage);
-            return "Mail Sent Successfully...";
+            return "Email enviado correctamente";
         }
 
         catch (Exception e) {
-            return "Error while Sending Mail";
+            return "Error al enviar el email";
         }
     }
 
-    public String
-    sendMailWithAttachment(EmailsDetails details)
+    public String sendMailWithAttachment(EmailsDetails details)
     {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper;
