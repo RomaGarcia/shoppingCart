@@ -74,13 +74,17 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public ResponseEntity<Object> buy(Long id, String wayToPay, CardValidationDTO cardValidationDTO) {
 
+        ShoppingCart shoppingCart = shoppingCartRepository.findById(id).get();
+        cardValidationDTO.setToAccountNumber("VIN003");
+        cardValidationDTO.setAmount(shoppingCart.getPrice());
+
         String response= paymentValidationService.validation(cardValidationDTO);
 
-        if(!response.equals(null)){
+        if(!response.equals("validado")){
             return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
         }
 
-        ShoppingCart shoppingCart = shoppingCartRepository.findById(id).get();
+
         Set<ProductLoad> productLoads = shoppingCart.getProductLoans();
 
         if (productLoads == null) {
