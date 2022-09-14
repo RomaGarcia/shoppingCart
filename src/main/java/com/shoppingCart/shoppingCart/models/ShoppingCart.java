@@ -13,11 +13,11 @@ public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name= "native", strategy = "native")
-    @ApiModelProperty(notes = "Shopping Cart ID", example =  "1", required = false)
+    @ApiModelProperty(notes = "Shopping Cart ID", example =  "1")
     private Long id;
-    @ApiModelProperty(notes = "Shopping Cart total price", example =  "200", required = true)
+     @ApiModelProperty(notes = "Shopping Cart total price", example =  "200", required = true)
     private Double price;
-    @ApiModelProperty(notes = "Shopping Cart status", example =  "true", required = true)
+     @ApiModelProperty(notes = "Shopping Cart status", example =  "true", required = true)
     private Boolean status;
 
     @ManyToOne(fetch = FetchType.EAGER)

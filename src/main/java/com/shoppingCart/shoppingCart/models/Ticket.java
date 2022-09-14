@@ -12,11 +12,11 @@ public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name="native", strategy="native")
-    @ApiModelProperty(notes = "Ticet id", example =  "1", required = false)
+    //@ApiModelProperty(notes = "Ticket id", example =  "1")
     public Long id;
-    @ApiModelProperty(notes = "Ticket date", example =  "09/12/2022", required = true)
+    //@ApiModelProperty(notes = "Ticket date", example =  "09/12/2022", required = true)
     public LocalDate date;
-    @ApiModelProperty(notes = "Way to Pay", example =  "CREDIT", required = true)
+    //@ApiModelProperty(notes = "Shopping Cart status", example =  "1", required = true)
     public String wayToPay;
 
     @OneToOne(fetch = FetchType.EAGER)

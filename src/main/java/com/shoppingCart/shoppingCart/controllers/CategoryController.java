@@ -22,11 +22,12 @@ public class CategoryController {
     @Autowired
     public CategoryService categoryService;
 
-    @PostMapping("/admin/category/{name}")
+
     @ApiOperation(value = "Create a category")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "created")
+           @ApiResponse(code = 201, message = "created")
     })
+    @PostMapping("/admin/category/{name}")
     public ResponseEntity<Object> create(Authentication authentication, @PathVariable @ApiParam(name = "name", value = "Category name", example = "Bebidas") String name){
 
         return categoryService.create(name);

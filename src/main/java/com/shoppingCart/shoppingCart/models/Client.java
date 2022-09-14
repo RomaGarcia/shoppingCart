@@ -10,14 +10,15 @@ import java.util.Set;
 @Entity
 public class Client {
 
+
+    //@ApiModelProperty(notes = "Client ID", example =  "1")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name="native", strategy="native")
-    @ApiModelProperty(notes = "Client ID", example =  "1", required = false)
     public Long id;
     @ApiModelProperty(notes = "Client First Name", example =  "Agostina", required = true)
     private String firstName;
-    @ApiModelProperty(notes = "Client Last Name", example =  "Macchi", required = true)
+   @ApiModelProperty(notes = "Client Last Name", example =  "Macchi", required = true)
     private String lastName;
 
     @Column(unique = true)

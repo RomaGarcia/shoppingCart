@@ -60,7 +60,7 @@ public class ClientServiceImpl implements ClientService {
         shoppingCartRepository.save(shoppingCart1);
 
         sendEmailService.sendValidationMail(client);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>("created", HttpStatus.CREATED);
     }
 
     @Override
