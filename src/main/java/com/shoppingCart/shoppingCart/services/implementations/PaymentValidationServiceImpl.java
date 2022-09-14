@@ -24,7 +24,7 @@ public class PaymentValidationServiceImpl implements PaymentValidationService {
         HttpEntity<CardValidationDTO> entity = new HttpEntity<CardValidationDTO>(cardValidationDTO, headers);
 
 
-        return template.exchange("http://localhost:8081/cardValidation", HttpMethod.POST, entity, String.class).getBody();
+        return template.exchange("https://homebanking-gladiador.herokuapp.com/cardValidation", HttpMethod.POST, entity, String.class).getBody();
     }
 
 

@@ -13,7 +13,10 @@ import java.util.List;
 public interface ShoppingCartService {
 
     List<ShoppingCartDTO> getAllShoppingCart();
-    ShoppingCartDTO getShoppingCartById(@PathVariable Long id);
+
+
+    ShoppingCartDTO getShoppingCartByClient(Authentication authentication);
+
     void postShoppingCart(Authentication authentication);
 
     void remove(ShoppingCart shoppingCart, ProductLoad productLoad);

@@ -13,11 +13,11 @@ public class Product {
     @Id
     @GeneratedValue (strategy= GenerationType.AUTO, generator="native")
     @GenericGenerator(name="native", strategy="native")
-    @ApiModelProperty(notes = "Product ID", example = "1", required = false)
+    @ApiModelProperty(notes = "Product ID", example = "1")
     private Long id;
     @ApiModelProperty(notes = "Product Name", example = "Gaseosa", required = true)
     private String name;
-    @ApiModelProperty(notes = "Product Price", example = "200", required = true)
+   @ApiModelProperty(notes = "Product Price", example = "200", required = true)
     private Double price;
     @ApiModelProperty(notes = "Product Stock", example = "20", required = true)
     private Integer stock;

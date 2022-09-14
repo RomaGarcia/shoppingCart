@@ -10,11 +10,11 @@ public class ProductLoad {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name="native", strategy = "native")
-    @ApiModelProperty(notes = "Product Load Id", example =  "1", required = false)
+     @ApiModelProperty(notes = "Product Load Id", example =  "1")
     private Long id;
     @ManyToOne( fetch = FetchType.EAGER)
     private Product product;
-    @ApiModelProperty(notes = "Product Load cuantity", example =  "2", required = true)
+     @ApiModelProperty(notes = "Product Load cuantity", example =  "2", required = true)
     private Integer amount;
     @ManyToOne ( fetch = FetchType.EAGER)
     private ShoppingCart shoppingCart;

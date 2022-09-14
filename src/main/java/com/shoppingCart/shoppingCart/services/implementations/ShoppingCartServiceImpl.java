@@ -51,9 +51,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public ShoppingCartDTO getShoppingCartById(Long id) {
-
-        return new ShoppingCartDTO(shoppingCartRepository.findById(id).get());
+    public ShoppingCartDTO getShoppingCartByClient(Authentication authentication) {
+        Client client = clientRepository.findByEmail(authentication.getName());
+        return new ShoppingCartDTO(shoppingCartRepository.findByClientAndStatus(client, true));
 
     }
 
@@ -94,18 +94,20 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         if (!productService.discount(productLoads)) {
             return new ResponseEntity<>("There is not enaugh stock", HttpStatus.FORBIDDEN);
         }
+        EmailsDetails details = new EmailsDetails();
 
         shoppingCart.setTicket(ticketService.create(shoppingCart, wayToPay));
+        sendEmailService.sendSimpleMail(details, client);
         shoppingCart.setStatus(false);
         ShoppingCart newShoppingCart = new ShoppingCart(shoppingCart.getClient());
         shoppingCartRepository.save(shoppingCart);
         shoppingCartRepository.save(newShoppingCart);
 
-        EmailsDetails details = new EmailsDetails();
 
 
 
-        sendEmailService.sendSimpleMail(details, client);
+
+
 
         return new ResponseEntity<>("Compra realizada", HttpStatus.ACCEPTED);
     }
