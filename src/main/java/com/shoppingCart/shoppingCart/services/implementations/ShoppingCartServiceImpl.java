@@ -2,7 +2,9 @@ package com.shoppingCart.shoppingCart.services.implementations;
 
 import com.shoppingCart.shoppingCart.dtos.CardValidationDTO;
 import com.shoppingCart.shoppingCart.dtos.ShoppingCartDTO;
+
 import com.shoppingCart.shoppingCart.models.Client;
+import com.shoppingCart.shoppingCart.models.EmailsDetails;
 import com.shoppingCart.shoppingCart.models.ProductLoad;
 import com.shoppingCart.shoppingCart.models.ShoppingCart;
 import com.shoppingCart.shoppingCart.repositories.ClientRepository;
@@ -40,6 +42,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Autowired
     private PaymentValidationService  paymentValidationService;
 
+    @Autowired
+    private SendEmailService sendEmailService;
 
     @Override
     public List<ShoppingCartDTO> getAllShoppingCart() {
@@ -97,8 +101,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         shoppingCartRepository.save(shoppingCart);
         shoppingCartRepository.save(newShoppingCart);
 
+        EmailsDetails details = new EmailsDetails();
+
+
+
+        sendEmailService.sendSimpleMail(details, client);
+
         return new ResponseEntity<>("Compra realizada", HttpStatus.ACCEPTED);
     }
-
-
 }

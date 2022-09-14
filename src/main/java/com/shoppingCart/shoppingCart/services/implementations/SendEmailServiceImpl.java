@@ -1,8 +1,13 @@
 package com.shoppingCart.shoppingCart.services.implementations;
 
+
 import com.shoppingCart.shoppingCart.models.Client;
 import com.shoppingCart.shoppingCart.services.SendEmailService;
 import com.shoppingCart.shoppingCart.models.EmailsDetails;
+
+import com.shoppingCart.shoppingCart.models.*;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -14,6 +19,7 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
+import java.util.Set;
 
 @Service
 public class SendEmailServiceImpl implements SendEmailService {
@@ -22,30 +28,52 @@ public class SendEmailServiceImpl implements SendEmailService {
     private JavaMailSender javaMailSender;
 
     @Value("${spring.mail.username}") private String sender;
+    /*private Iterable<? extends Product> products;*/
 
-    public String sendSimpleMail(EmailsDetails details)
-    {
-
+    @Override
+    public String sendSimpleMail(EmailsDetails details, Client client) {
         try {
 
             SimpleMailMessage mailMessage = new SimpleMailMessage();
 
             mailMessage.setFrom(sender);
-            mailMessage.setTo(details.getRecipient());
-            mailMessage.setText(details.getMsgBody());
-            mailMessage.setSubject(details.getSubject());
+            mailMessage.setTo(/*details.getRecipient()*/client.getEmail());
+            ProductLoad productLoan = new ProductLoad();
+            mailMessage.setText("MARKETPLACE/E-COMMERCE" + "\n" +
+                    "--------------------------------" + "\n" +
+                    "TICKET" + "\n" +
+                    "--------------------------------" + "\n" +
+                    client.getFirstName() + " " + client.getLastName() + "\n" +
+                    client.getAddress() + "\n" +
+                    "--------------------------------" + "\n"
+                    /*productLoan.getProduct().getName()*/);
+                    /*.getProduct().getStock() + " x " + productLoan.getProduct().getPrice() + "\n" +
+                    productLoan.getProduct().getCategory() + "\n" +
+                    productLoan.getProduct().getDescription() + " " + productLoan.getProduct().getName()
+                    );*/
+
+            /*ProductLoad[] ProductLoads = new ProductLoad[0];
+            for (ProductLoad productLoan:ProductLoads) {
+                mailMessage.setText(productLoan.getProduct().getStock() + " x " + productLoan.getProduct().getPrice() + "\n" +
+                        productLoan.getProduct().getCategory() + "\n" +
+                        productLoan.getProduct().getDescription() + " " + productLoan.getProduct().getName());
+
+            }*/
+
+            mailMessage.setSubject("Ticket de compra");
 
             javaMailSender.send(mailMessage);
-            return "Mail Sent Successfully...";
+            return "Email enviado correctamente";
         }
 
         catch (Exception e) {
-            return "Error while Sending Mail";
+            return "Error al enviar el email";
         }
     }
     @Override
     public void sendValidationMail(Client client){
         SimpleMailMessage mail = new SimpleMailMessage();
+
 
         mail.setFrom(sender);
         mail.setTo(client.getEmail());
@@ -58,6 +86,7 @@ public class SendEmailServiceImpl implements SendEmailService {
     }
     public String
     sendMailWithAttachment(EmailsDetails details)
+
     {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper;
