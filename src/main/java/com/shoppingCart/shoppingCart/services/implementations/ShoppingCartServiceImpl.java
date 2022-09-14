@@ -2,7 +2,11 @@ package com.shoppingCart.shoppingCart.services.implementations;
 
 import com.shoppingCart.shoppingCart.dtos.CardValidationDTO;
 import com.shoppingCart.shoppingCart.dtos.ShoppingCartDTO;
-import com.shoppingCart.shoppingCart.models.*;
+
+import com.shoppingCart.shoppingCart.models.Client;
+import com.shoppingCart.shoppingCart.models.EmailsDetails;
+import com.shoppingCart.shoppingCart.models.ProductLoad;
+import com.shoppingCart.shoppingCart.models.ShoppingCart;
 import com.shoppingCart.shoppingCart.repositories.ClientRepository;
 import com.shoppingCart.shoppingCart.repositories.ProductRepository;
 import com.shoppingCart.shoppingCart.repositories.ShoppingCartRepository;
@@ -27,6 +31,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Autowired
     ClientRepository clientRepository;
     @Autowired
+    private ClientService clientService;
+    @Autowired
     private TicketService ticketService;
     @Autowired
     private ProductService productService;
@@ -46,6 +52,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public ShoppingCartDTO getShoppingCartById(Long id) {
+
         return new ShoppingCartDTO(shoppingCartRepository.findById(id).get());
 
     }
@@ -63,9 +70,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public ResponseEntity<Object> buy(Long id, String wayToPay, CardValidationDTO cardValidationDTO) {
-
-        ShoppingCart shoppingCart = shoppingCartRepository.findById(id).get();
+    public ResponseEntity<Object> buy(Authentication authentication, String wayToPay, CardValidationDTO cardValidationDTO) {
+        Client client=clientRepository.findByEmail(authentication.getName());
+        if (!clientService.validateStatus(authentication)){
+            return new ResponseEntity<>("please validate acount", HttpStatus.FORBIDDEN);
+        }
+        ShoppingCart shoppingCart = shoppingCartRepository.findByClientAndStatus(client, true);
         cardValidationDTO.setToAccountNumber("VIN003");
         cardValidationDTO.setAmount(shoppingCart.getPrice());
 
@@ -92,10 +102,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         shoppingCartRepository.save(newShoppingCart);
 
         EmailsDetails details = new EmailsDetails();
-        Client client = shoppingCart.getClient();
-        ProductLoad product = (ProductLoad) shoppingCart.getProductLoans();
 
-        sendEmailService.sendSimpleMail(details, client, product);
+
+
+        sendEmailService.sendSimpleMail(details, client);
 
         return new ResponseEntity<>("Compra realizada", HttpStatus.ACCEPTED);
     }

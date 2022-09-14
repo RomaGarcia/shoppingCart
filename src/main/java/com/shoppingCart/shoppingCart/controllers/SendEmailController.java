@@ -22,7 +22,7 @@ public class SendEmailController {
     public String
     sendMail(@RequestBody EmailsDetails details, Client client, Set<ProductLoad> product)
     {
-        String status = emailService.sendSimpleMail(details, client, product);
+        String status = emailService.sendSimpleMail(details, client);
 
         return status;
     }

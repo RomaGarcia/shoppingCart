@@ -12,7 +12,7 @@ public class Category {
     @Id
     @GeneratedValue (strategy= GenerationType.AUTO, generator = "native")
     @GenericGenerator(name="native",strategy = "native")
-    @ApiModelProperty(notes = "Product Categoty ID", example =  "1", required = true)
+    @ApiModelProperty(notes = "Product Categoty ID", example =  "1", required = false)
     private Long id;
     @ApiModelProperty(notes = "Product Categoty name", example =  "Bebidas", required = true)
     private String name;

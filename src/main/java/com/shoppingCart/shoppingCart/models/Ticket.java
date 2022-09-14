@@ -12,7 +12,7 @@ public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name="native", strategy="native")
-    @ApiModelProperty(notes = "Ticet id", example =  "1", required = true)
+    @ApiModelProperty(notes = "Ticet id", example =  "1", required = false)
     public Long id;
     @ApiModelProperty(notes = "Ticket date", example =  "09/12/2022", required = true)
     public LocalDate date;

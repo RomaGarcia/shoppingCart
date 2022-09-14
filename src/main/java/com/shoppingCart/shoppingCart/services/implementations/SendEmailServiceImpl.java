@@ -1,7 +1,13 @@
 package com.shoppingCart.shoppingCart.services.implementations;
 
-import com.shoppingCart.shoppingCart.models.*;
+
+import com.shoppingCart.shoppingCart.models.Client;
 import com.shoppingCart.shoppingCart.services.SendEmailService;
+import com.shoppingCart.shoppingCart.models.EmailsDetails;
+
+import com.shoppingCart.shoppingCart.models.*;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -25,7 +31,7 @@ public class SendEmailServiceImpl implements SendEmailService {
     /*private Iterable<? extends Product> products;*/
 
     @Override
-    public String sendSimpleMail(EmailsDetails details, Client client, Set<ProductLoad> product) {
+    public String sendSimpleMail(EmailsDetails details, Client client) {
         try {
 
             SimpleMailMessage mailMessage = new SimpleMailMessage();
@@ -64,13 +70,23 @@ public class SendEmailServiceImpl implements SendEmailService {
             return "Error al enviar el email";
         }
     }
+    @Override
+    public void sendValidationMail(Client client){
+        SimpleMailMessage mail = new SimpleMailMessage();
 
-    /*@Override
-    public String sendSimpleMail(EmailsDetails details, Client client, Set<ProductLoad> product) {
-        return null;
-    }*/
 
-    public String sendMailWithAttachment(EmailsDetails details)
+        mail.setFrom(sender);
+        mail.setTo(client.getEmail());
+        mail.setSubject("Validacion de cuenta");
+        mail.setText("Hola "+client.getFirstName()+ "\n"+
+                "Por favor haga click en el link para validar la cuenta: \n"+
+                "http://localhost:8080/api/validarCuenta/"+client.getId());
+
+        javaMailSender.send(mail);
+    }
+    public String
+    sendMailWithAttachment(EmailsDetails details)
+
     {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper;
