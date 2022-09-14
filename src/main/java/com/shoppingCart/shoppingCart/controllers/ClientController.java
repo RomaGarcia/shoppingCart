@@ -34,7 +34,13 @@ public class ClientController {
     }
     @PatchMapping("/api/admin/clients/setstatus/{id}")
     public void setStatus(@PathVariable Long id){
-        System.out.println(id);
         clientService.setStatus(id);
     }
+
+    @GetMapping("/api/validarCuenta/{id}")
+    public void validation(@PathVariable Long id){
+        clientService.validation(id);
+    }
+
+
 }

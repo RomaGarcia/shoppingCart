@@ -37,7 +37,8 @@ public class ShoppingCartApplication {
 
 			Client client1 = new Client("Agostina", "Macchi", "agosmac@hotmail.com", passwordEncoder.encode("1234"), "Av siempreviva");
 			Client client2 = new Client("Ramiro", "Rodriguez", "ramiro@admin.com", passwordEncoder.encode("12345"), "Av siempreviva");
-
+			client1.setStatus(true);
+			client2.setStatus(true);
 			clientRepository.save(client1);
 			clientRepository.save(client2);
 

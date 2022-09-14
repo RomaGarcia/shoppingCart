@@ -3,18 +3,18 @@ package com.shoppingCart.shoppingCart.services.implementations;
 import com.shoppingCart.shoppingCart.dtos.ClientCreateDTO;
 import com.shoppingCart.shoppingCart.dtos.ClientDTO;
 import com.shoppingCart.shoppingCart.models.Client;
-import com.shoppingCart.shoppingCart.models.Product;
 import com.shoppingCart.shoppingCart.models.ShoppingCart;
 import com.shoppingCart.shoppingCart.repositories.ClientRepository;
 import com.shoppingCart.shoppingCart.repositories.ShoppingCartRepository;
 import com.shoppingCart.shoppingCart.services.ClientService;
+import com.shoppingCart.shoppingCart.services.SendEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Set;
 
 import static java.util.stream.Collectors.toSet;
@@ -29,6 +29,8 @@ public class ClientServiceImpl implements ClientService {
 
     @Autowired
     private ShoppingCartRepository shoppingCartRepository;
+    @Autowired
+    private SendEmailService sendEmailService;
 
     @Override
     public Set<ClientDTO> getClients() {
@@ -54,8 +56,10 @@ public class ClientServiceImpl implements ClientService {
 
 
         ShoppingCart shoppingCart1 = new ShoppingCart(client);
-        shoppingCartRepository.save(shoppingCart1);
         clientRepository.save(client);
+        shoppingCartRepository.save(shoppingCart1);
+
+        sendEmailService.sendValidationMail(client);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -85,5 +89,17 @@ public class ClientServiceImpl implements ClientService {
             client.setAddress(clientCreateDTO.getAddress());
         }
         clientRepository.save(client);
+    }
+    @Override
+    public void validation(Long id){
+        Client client= clientRepository.findById(id).get();
+        client.setStatus(true);
+        clientRepository.save(client);
+    }
+
+    @Override
+    public boolean validateStatus(Authentication authentication){
+        Client client=clientRepository.findByEmail(authentication.getName());
+        return client.getStatus();
     }
 }

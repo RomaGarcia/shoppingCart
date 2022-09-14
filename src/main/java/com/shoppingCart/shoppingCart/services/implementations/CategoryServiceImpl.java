@@ -20,6 +20,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public ResponseEntity<Object> create(String name){
         Category category = new Category(name);
+        categoryRepository.save(category);
         return new ResponseEntity<>("categoria crada", HttpStatus.CREATED);
     }
     @Override
@@ -30,11 +31,13 @@ public class CategoryServiceImpl implements CategoryService {
     public void update(String name, Long id){
         Category category = categoryRepository.findById(id).get();
         category.setName(name);
+        categoryRepository.save(category);
     }
     @Override
     public void setStatus(Long id){
         Category category = categoryRepository.findById(id).get();
         category.setStatus(!category.isStatus());
+        categoryRepository.save(category);
     }
     @Override
     public Category findById(Long id){

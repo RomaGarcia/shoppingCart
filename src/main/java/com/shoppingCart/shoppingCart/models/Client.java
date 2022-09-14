@@ -13,7 +13,7 @@ public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name="native", strategy="native")
-    @ApiModelProperty(notes = "Client ID", example =  "1", required = true)
+    @ApiModelProperty(notes = "Client ID", example =  "1", required = false)
     public Long id;
     @ApiModelProperty(notes = "Client First Name", example =  "Agostina", required = true)
     private String firstName;
@@ -43,7 +43,7 @@ public class Client {
         this.email = email;
         this.password = password;
         this.address = address;
-        this.status = true;
+        this.status = false;
     }
 
     public Long getId() {

@@ -1,8 +1,8 @@
 package com.shoppingCart.shoppingCart.services.implementations;
 
+import com.shoppingCart.shoppingCart.models.Client;
 import com.shoppingCart.shoppingCart.services.SendEmailService;
 import com.shoppingCart.shoppingCart.models.EmailsDetails;
-import com.shoppingCart.shoppingCart.dtos.EmailsDetailsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -43,7 +43,19 @@ public class SendEmailServiceImpl implements SendEmailService {
             return "Error while Sending Mail";
         }
     }
+    @Override
+    public void sendValidationMail(Client client){
+        SimpleMailMessage mail = new SimpleMailMessage();
 
+        mail.setFrom(sender);
+        mail.setTo(client.getEmail());
+        mail.setSubject("Validacion de cuenta");
+        mail.setText("Hola "+client.getFirstName()+ "\n"+
+                "Por favor haga click en el link para validar la cuenta: \n"+
+                "http://localhost:8080/api/validarCuenta/"+client.getId());
+
+        javaMailSender.send(mail);
+    }
     public String
     sendMailWithAttachment(EmailsDetails details)
     {

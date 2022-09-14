@@ -3,17 +3,12 @@ package com.shoppingCart.shoppingCart.services.implementations;
 import com.shoppingCart.shoppingCart.dtos.CardValidationDTO;
 import com.shoppingCart.shoppingCart.dtos.ShoppingCartDTO;
 import com.shoppingCart.shoppingCart.models.Client;
-import com.shoppingCart.shoppingCart.models.Product;
 import com.shoppingCart.shoppingCart.models.ProductLoad;
 import com.shoppingCart.shoppingCart.models.ShoppingCart;
 import com.shoppingCart.shoppingCart.repositories.ClientRepository;
 import com.shoppingCart.shoppingCart.repositories.ProductRepository;
 import com.shoppingCart.shoppingCart.repositories.ShoppingCartRepository;
-import com.shoppingCart.shoppingCart.services.PaymentValidationService;
-import com.shoppingCart.shoppingCart.services.ProductService;
-import com.shoppingCart.shoppingCart.services.ShoppingCartService;
-import com.shoppingCart.shoppingCart.services.TicketService;
-import net.bytebuddy.asm.Advice;
+import com.shoppingCart.shoppingCart.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +29,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Autowired
     ClientRepository clientRepository;
     @Autowired
+    private ClientService clientService;
+    @Autowired
     private TicketService ticketService;
     @Autowired
     private ProductService productService;
@@ -51,6 +48,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public ShoppingCartDTO getShoppingCartById(Long id) {
+
         return new ShoppingCartDTO(shoppingCartRepository.findById(id).get());
 
     }
@@ -68,9 +66,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public ResponseEntity<Object> buy(Long id, String wayToPay, CardValidationDTO cardValidationDTO) {
-
-        ShoppingCart shoppingCart = shoppingCartRepository.findById(id).get();
+    public ResponseEntity<Object> buy(Authentication authentication, String wayToPay, CardValidationDTO cardValidationDTO) {
+        Client client=clientRepository.findByEmail(authentication.getName());
+        if (!clientService.validateStatus(authentication)){
+            return new ResponseEntity<>("please validate acount", HttpStatus.FORBIDDEN);
+        }
+        ShoppingCart shoppingCart = shoppingCartRepository.findByClientAndStatus(client, true);
         cardValidationDTO.setToAccountNumber("VIN003");
         cardValidationDTO.setAmount(shoppingCart.getPrice());
 

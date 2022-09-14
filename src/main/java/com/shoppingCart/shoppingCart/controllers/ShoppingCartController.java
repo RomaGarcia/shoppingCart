@@ -29,13 +29,13 @@ public class ShoppingCartController {
     }
 
     @GetMapping("/shoppingCart/{id}")
-    public ShoppingCartDTO getShoppingCartById(@PathVariable Long id, Authentication authentication){
+    public ShoppingCartDTO getShoppingCartById(@PathVariable Long id){
         return shoppingCartService.getShoppingCartById(id);
     }
     @Transactional
     @PostMapping("/shoppingCart/buy")
-    public ResponseEntity<Object> buy(Authentication authentication, @RequestParam Long id, @RequestParam String wayToPay, @RequestBody CardValidationDTO cardValidationDTO){
-        return shoppingCartService.buy(id, wayToPay, cardValidationDTO);
+    public ResponseEntity<Object> buy(Authentication authentication, @RequestParam String wayToPay, @RequestBody CardValidationDTO cardValidationDTO){
+        return shoppingCartService.buy(authentication, wayToPay, cardValidationDTO);
     }
 
 }
