@@ -6,15 +6,15 @@ import com.shoppingCart.shoppingCart.models.ShoppingCart;
 public class ProductLoadCreateDTO {
     private Long id;
     private Product product;
-    private Integer amount;
+    private Integer quantity;
     private ShoppingCart shoppingCart;
 
     public ProductLoadCreateDTO() {
     }
 
-    public ProductLoadCreateDTO(Product product, Integer amount, ShoppingCart shoppingCart) {
+    public ProductLoadCreateDTO(Product product, Integer quantity, ShoppingCart shoppingCart) {
         this.product = product;
-        this.amount = amount;
+        this.quantity = quantity;
         this.shoppingCart = shoppingCart;
     }
 
@@ -42,12 +42,12 @@ public class ProductLoadCreateDTO {
         this.product = product;
     }
 
-    public Integer getAmount() {
-        return amount;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setAmount(Integer amount) {
-        this.amount = amount;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     @Override
@@ -55,7 +55,7 @@ public class ProductLoadCreateDTO {
         return "ProductLoadCreateDTO{" +
                 "id=" + id +
                 ", product=" + product +
-                ", amount=" + amount +
+                ", quantity=" + quantity +
                 ", shoppingCart=" + shoppingCart +
                 '}';
     }

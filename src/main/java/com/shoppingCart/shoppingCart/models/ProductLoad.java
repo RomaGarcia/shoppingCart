@@ -14,18 +14,18 @@ public class ProductLoad {
     private Long id;
     @ManyToOne( fetch = FetchType.EAGER)
     private Product product;
-     @ApiModelProperty(notes = "Product Load cuantity", example =  "2", required = true)
-    private Integer amount;
+     @ApiModelProperty(notes = "Cantidad de productos cargados", example =  "2", required = true)
+    private Integer quantity;
     @ManyToOne ( fetch = FetchType.EAGER)
     private ShoppingCart shoppingCart;
 
     public ProductLoad() {
     }
 
-    public ProductLoad(Product product, Integer amount, ShoppingCart shoppingCart) {
+    public ProductLoad(Product product, Integer quantity, ShoppingCart shoppingCart) {
         this.shoppingCart=shoppingCart;
         this.product = product;
-        this.amount = amount;
+        this.quantity = quantity;
     }
 
     public ShoppingCart getShoppingCart() {
@@ -52,12 +52,12 @@ public class ProductLoad {
         this.product = product;
     }
 
-    public Integer getAmount() {
-        return amount;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setAmount(Integer amount) {
-        this.amount = amount;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     @Override
@@ -65,7 +65,7 @@ public class ProductLoad {
         return "ProductLoad{" +
                 "id=" + id +
                 ", product=" + product +
-                ", amount=" + amount +
+                ", quantity=" + quantity +
                 '}';
     }
 }

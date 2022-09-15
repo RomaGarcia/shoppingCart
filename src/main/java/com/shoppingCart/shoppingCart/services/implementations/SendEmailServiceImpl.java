@@ -44,7 +44,7 @@ public class SendEmailServiceImpl implements SendEmailService {
             String mensaje = " ";
 
             for (ProductLoad productLoad : productLoads) {
-                mensaje = mensaje + "\n" + productLoad.getAmount() + " " + productLoad.getProduct().getName() + " " + (productLoad.getAmount() * productLoad.getProduct().getPrice()+"\n");
+                mensaje = mensaje + "\n" + productLoad.getQuantity() + " " + productLoad.getProduct().getName() + " " + (productLoad.getQuantity() * productLoad.getProduct().getPrice()+"\n");
 
             }
             mensaje=mensaje+"Total "+shoppingCart.getPrice();
@@ -91,7 +91,7 @@ public class SendEmailServiceImpl implements SendEmailService {
         mail.setSubject("Validacion de cuenta");
         mail.setText("Hola " + client.getFirstName() + "\n" +
                 "Por favor haga click en el link para validar la cuenta: \n" +
-                "http://localhost:8080/api/validarCuenta/" + client.getId());
+                "https://shoppingcart-001.herokuapp.com//api/validarCuenta/" + client.getId());
 
         javaMailSender.send(mail);
     }
