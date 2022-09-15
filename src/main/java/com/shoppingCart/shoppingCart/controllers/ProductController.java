@@ -29,8 +29,8 @@ public class ProductController {
             @ApiResponse(code = 201, message = "producto creado")
     })
     @PostMapping("/admin/products")
-    public ResponseEntity<Object> create(Authentication authentication,@RequestBody ProductCreateDTO productCreateDTO){
-        //validar admin?
+    public ResponseEntity<Object> create(@RequestBody ProductCreateDTO productCreateDTO){
+
         return productService.create(productCreateDTO);
     }
 

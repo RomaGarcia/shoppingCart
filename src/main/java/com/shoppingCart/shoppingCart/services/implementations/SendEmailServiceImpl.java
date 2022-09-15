@@ -59,7 +59,7 @@ public class SendEmailServiceImpl implements SendEmailService {
                             client.getAddress() + "\n" +
                             "--------------------------------" + "\n"
                     +mensaje);
-              
+
 
             mailMessage.setSubject("Ticket de compra");
 

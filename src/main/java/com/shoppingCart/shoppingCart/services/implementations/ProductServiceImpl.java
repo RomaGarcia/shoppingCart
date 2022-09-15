@@ -4,6 +4,7 @@ import com.shoppingCart.shoppingCart.dtos.ProductCreateDTO;
 import com.shoppingCart.shoppingCart.dtos.ProductDTO;
 import com.shoppingCart.shoppingCart.models.Product;
 import com.shoppingCart.shoppingCart.models.ProductLoad;
+import com.shoppingCart.shoppingCart.repositories.CategoryRepository;
 import com.shoppingCart.shoppingCart.repositories.ProductRepository;
 import com.shoppingCart.shoppingCart.services.CategoryService;
 import com.shoppingCart.shoppingCart.services.ProductService;
@@ -23,13 +24,16 @@ public class ProductServiceImpl implements ProductService {
     public ProductRepository productRepository;
     @Autowired
     public CategoryService categoryService;
+    @Autowired
+    public CategoryRepository categoryRepository;
 
     @Override
     public ResponseEntity create(ProductCreateDTO productCreateDTO){
+
         if (productCreateDTO.getPrice()<=0 || productCreateDTO.getStock()<0){
             return new ResponseEntity<>("Revise los datos ingresados", HttpStatus.FORBIDDEN);
         }
-        Product product = new Product(productCreateDTO.getName(), productCreateDTO.getPrice(), productCreateDTO.getStock(), productCreateDTO.getDescription(), productCreateDTO.getCategory());
+        Product product = new Product(productCreateDTO.getName(), productCreateDTO.getPrice(), productCreateDTO.getStock(), productCreateDTO.getDescription(), categoryRepository.findByName(productCreateDTO.getCategory()));
         productRepository.save(product);
         return new ResponseEntity<>("Producto creado", HttpStatus.CREATED);
     }
@@ -57,7 +61,7 @@ public class ProductServiceImpl implements ProductService {
             product.setDescription(productCreateDTO.getDescription());
         }
         if (productCreateDTO.getCategory()!=null){
-            product.setCategory(productCreateDTO.getCategory());
+            product.setCategory(categoryRepository.findByName(productCreateDTO.getCategory()));
         }
         productRepository.save(product);
     }
