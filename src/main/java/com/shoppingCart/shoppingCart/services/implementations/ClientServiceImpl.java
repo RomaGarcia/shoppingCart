@@ -83,7 +83,7 @@ public class ClientServiceImpl implements ClientService {
             client.setEmail(clientCreateDTO.getEmail());
         }
         if (clientCreateDTO.getPassword()!=null){
-            client.setPassword(clientCreateDTO.getPassword());
+            client.setPassword(passwordEncoder.encode(clientCreateDTO.getPassword()));
         }
         if (clientCreateDTO.getAddress()!=null){
             client.setAddress(clientCreateDTO.getAddress());

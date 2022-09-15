@@ -8,13 +8,13 @@ public class ProductCreateDTO {
     private Double price;
     private Integer stock;
     private String description;
-    private Category category;
+    private String category;
 
     public ProductCreateDTO() {
     }
 
-    public ProductCreateDTO(Long id, String name, Double price, Integer stock, String description, Category category) {
-        this.id = id;
+    public ProductCreateDTO( String name, Double price, Integer stock, String description, String category) {
+
         this.name = name;
         this.price = price;
         this.stock = stock;
@@ -22,11 +22,11 @@ public class ProductCreateDTO {
         this.category=category;
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 

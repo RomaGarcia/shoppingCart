@@ -46,6 +46,6 @@ public class CategoryController {
     @ApiOperation(value = "cancel/activate category by id")
     @PatchMapping("/admin/category/{id}")
     public void setStatus(Authentication authentication, @PathVariable  @ApiParam(name = "id", value = "Category id", example = "1") Long id){
-
+        categoryService.setStatus(id);
     }
 }
