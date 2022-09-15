@@ -1,12 +1,11 @@
 package com.shoppingCart.shoppingCart.dtos;
 
-import com.shoppingCart.shoppingCart.models.Product;
 import com.shoppingCart.shoppingCart.models.ProductLoad;
 
 public class ProductLoadDTO {
     private Long id;
     private ProductDTO productDTO;
-    private Integer amount;
+    private Integer quantity;
 
     public ProductLoadDTO() {
     }
@@ -14,7 +13,7 @@ public class ProductLoadDTO {
     public ProductLoadDTO(ProductLoad productLoad) {
         this.id = productLoad.getId();
         this.productDTO = new ProductDTO(productLoad.getProduct());
-        this.amount = productLoad.getAmount();
+        this.quantity = productLoad.getQuantity();
     }
 
     public Long getId() {
@@ -33,11 +32,11 @@ public class ProductLoadDTO {
         this.productDTO = productDTO;
     }
 
-    public Integer getAmount() {
-        return amount;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setAmount(Integer amount) {
-        this.amount = amount;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 }

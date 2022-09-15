@@ -71,10 +71,10 @@ public class ProductServiceImpl implements ProductService {
     public boolean discount(Set<ProductLoad> productLoads){
         for (ProductLoad productLoad: productLoads) {
             Product product=productLoad.getProduct();
-            if (productLoad.getAmount()>product.getStock()) {
+            if (productLoad.getQuantity()>product.getStock()) {
                 return false;
             }
-            product.setStock(product.getStock()-productLoad.getAmount());
+            product.setStock(product.getStock()-productLoad.getQuantity());
 
         }
         productRepository.saveAll(productLoads.stream().map(productLoad -> productLoad.getProduct()).collect(toList()));

@@ -95,7 +95,7 @@ public class ShoppingCart {
     }
 
     public void addProductLoad(ProductLoad productLoad){
-        price=price+(productLoad.getAmount()*productLoad.getProduct().getPrice());
+        price=price+(productLoad.getQuantity()*productLoad.getProduct().getPrice());
         this.productLoans.add(productLoad);
     }
 
