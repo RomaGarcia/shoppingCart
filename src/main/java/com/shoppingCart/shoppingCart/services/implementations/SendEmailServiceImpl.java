@@ -59,18 +59,7 @@ public class SendEmailServiceImpl implements SendEmailService {
                             client.getAddress() + "\n" +
                             "--------------------------------" + "\n"
                     +mensaje);
-                    /*.getProduct().getStock() + " x " + productLoan.getProduct().getPrice() + "\n" +
-                    productLoan.getProduct().getCategory() + "\n" +
-                    productLoan.getProduct().getDescription() + " " + productLoan.getProduct().getName()
-                    );*/
-
-            /*ProductLoad[] ProductLoads = new ProductLoad[0];
-            for (ProductLoad productLoan:ProductLoads) {
-                mailMessage.setText(productLoan.getProduct().getStock() + " x " + productLoan.getProduct().getPrice() + "\n" +
-                        productLoan.getProduct().getCategory() + "\n" +
-                        productLoan.getProduct().getDescription() + " " + productLoan.getProduct().getName());
-
-            }*/
+              
 
             mailMessage.setSubject("Ticket de compra");
 
@@ -91,7 +80,7 @@ public class SendEmailServiceImpl implements SendEmailService {
         mail.setSubject("Validacion de cuenta");
         mail.setText("Hola " + client.getFirstName() + "\n" +
                 "Por favor haga click en el link para validar la cuenta: \n" +
-                "https://shoppingcart-001.herokuapp.com//api/validarCuenta/" + client.getId());
+                "https://shoppingcart-001.herokuapp.com/api/validarCuenta/" + client.getId());
 
         javaMailSender.send(mail);
     }
