@@ -1,5 +1,6 @@
 package com.shoppingCart.shoppingCart.models;
 
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -11,10 +12,11 @@ public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name="native", strategy="native")
+    //@ApiModelProperty(notes = "Ticket id", example =  "1")
     public Long id;
-
+    //@ApiModelProperty(notes = "Ticket date", example =  "09/12/2022", required = true)
     public LocalDate date;
-
+    //@ApiModelProperty(notes = "Shopping Cart status", example =  "1", required = true)
     public String wayToPay;
 
     @OneToOne(fetch = FetchType.EAGER)

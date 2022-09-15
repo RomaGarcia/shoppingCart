@@ -1,5 +1,6 @@
 package com.shoppingCart.shoppingCart.models;
 
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -12,10 +13,11 @@ public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name= "native", strategy = "native")
+    @ApiModelProperty(notes = "Shopping Cart ID", example =  "1")
     private Long id;
-
+     @ApiModelProperty(notes = "Shopping Cart total price", example =  "200", required = true)
     private Double price;
-
+     @ApiModelProperty(notes = "Shopping Cart status", example =  "true", required = true)
     private Boolean status;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -27,7 +29,7 @@ public class ShoppingCart {
     private Ticket ticket;
 
     @OneToMany(fetch = FetchType.EAGER)
-   private Set<ProductLoad> productLoans = new HashSet<>();
+    private Set<ProductLoad> productLoans = new HashSet<>();
 
 
     public ShoppingCart() {
@@ -93,7 +95,7 @@ public class ShoppingCart {
     }
 
     public void addProductLoad(ProductLoad productLoad){
-        price=price+(productLoad.getAmount()*productLoad.getProduct().getPrice());
+        price=price+(productLoad.getQuantity()*productLoad.getProduct().getPrice());
         this.productLoans.add(productLoad);
     }
 

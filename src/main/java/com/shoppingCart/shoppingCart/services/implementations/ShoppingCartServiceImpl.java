@@ -2,18 +2,15 @@ package com.shoppingCart.shoppingCart.services.implementations;
 
 import com.shoppingCart.shoppingCart.dtos.CardValidationDTO;
 import com.shoppingCart.shoppingCart.dtos.ShoppingCartDTO;
+
 import com.shoppingCart.shoppingCart.models.Client;
-import com.shoppingCart.shoppingCart.models.Product;
+import com.shoppingCart.shoppingCart.models.EmailsDetails;
 import com.shoppingCart.shoppingCart.models.ProductLoad;
 import com.shoppingCart.shoppingCart.models.ShoppingCart;
 import com.shoppingCart.shoppingCart.repositories.ClientRepository;
 import com.shoppingCart.shoppingCart.repositories.ProductRepository;
 import com.shoppingCart.shoppingCart.repositories.ShoppingCartRepository;
-import com.shoppingCart.shoppingCart.services.PaymentValidationService;
-import com.shoppingCart.shoppingCart.services.ProductService;
-import com.shoppingCart.shoppingCart.services.ShoppingCartService;
-import com.shoppingCart.shoppingCart.services.TicketService;
-import net.bytebuddy.asm.Advice;
+import com.shoppingCart.shoppingCart.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +31,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Autowired
     ClientRepository clientRepository;
     @Autowired
+    private ClientService clientService;
+    @Autowired
     private TicketService ticketService;
     @Autowired
     private ProductService productService;
@@ -43,6 +42,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Autowired
     private PaymentValidationService  paymentValidationService;
 
+    @Autowired
+    private SendEmailService sendEmailService;
 
     @Override
     public List<ShoppingCartDTO> getAllShoppingCart() {
@@ -50,8 +51,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public ShoppingCartDTO getShoppingCartById(Long id) {
-        return new ShoppingCartDTO(shoppingCartRepository.findById(id).get());
+    public ShoppingCartDTO getShoppingCartByClient(Authentication authentication) {
+        Client client = clientRepository.findByEmail(authentication.getName());
+        return new ShoppingCartDTO(shoppingCartRepository.findByClientAndStatus(client, true));
 
     }
 
@@ -68,15 +70,22 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public ResponseEntity<Object> buy(Long id, String wayToPay, CardValidationDTO cardValidationDTO) {
+    public ResponseEntity<Object> buy(Authentication authentication, String wayToPay, CardValidationDTO cardValidationDTO) {
+        Client client=clientRepository.findByEmail(authentication.getName());
+        if (!clientService.validateStatus(authentication)){
+            return new ResponseEntity<>("please validate acount", HttpStatus.FORBIDDEN);
+        }
+        ShoppingCart shoppingCart = shoppingCartRepository.findByClientAndStatus(client, true);
+        cardValidationDTO.setToAccountNumber("VIN003");
+        cardValidationDTO.setAmount(shoppingCart.getPrice());
 
         String response= paymentValidationService.validation(cardValidationDTO);
 
-        if(!response.equals(null)){
+        if(!response.equals("validado")){
             return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
         }
 
-        ShoppingCart shoppingCart = shoppingCartRepository.findById(id).get();
+
         Set<ProductLoad> productLoads = shoppingCart.getProductLoans();
 
         if (productLoads == null) {
@@ -85,15 +94,21 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         if (!productService.discount(productLoads)) {
             return new ResponseEntity<>("There is not enaugh stock", HttpStatus.FORBIDDEN);
         }
+        EmailsDetails details = new EmailsDetails();
 
         shoppingCart.setTicket(ticketService.create(shoppingCart, wayToPay));
+        sendEmailService.sendSimpleMail(details, client);
         shoppingCart.setStatus(false);
         ShoppingCart newShoppingCart = new ShoppingCart(shoppingCart.getClient());
         shoppingCartRepository.save(shoppingCart);
         shoppingCartRepository.save(newShoppingCart);
 
+
+
+
+
+
+
         return new ResponseEntity<>("Compra realizada", HttpStatus.ACCEPTED);
     }
-
-
 }

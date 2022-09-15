@@ -13,10 +13,15 @@ import java.util.List;
 public interface ShoppingCartService {
 
     List<ShoppingCartDTO> getAllShoppingCart();
-    ShoppingCartDTO getShoppingCartById(@PathVariable Long id);
+
+
+    ShoppingCartDTO getShoppingCartByClient(Authentication authentication);
+
     void postShoppingCart(Authentication authentication);
 
     void remove(ShoppingCart shoppingCart, ProductLoad productLoad);
 
-    ResponseEntity<Object> buy(Long id, String wayToPay, CardValidationDTO cardValidationDTO);
+
+
+    ResponseEntity<Object> buy(Authentication authentication, String wayToPay, CardValidationDTO cardValidationDTO);
 }

@@ -1,5 +1,6 @@
 package com.shoppingCart.shoppingCart.models;
 
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -11,10 +12,13 @@ public class Category {
     @Id
     @GeneratedValue (strategy= GenerationType.AUTO, generator = "native")
     @GenericGenerator(name="native",strategy = "native")
+    @ApiModelProperty(notes = "Product Categoty ID", example =  "1")
     private Long id;
+    @ApiModelProperty(notes = "Product Categoty name", example =  "Bebidas", required = true)
     private String name;
     @OneToMany ( fetch = FetchType.EAGER)
     private Set<Product> product=new HashSet<>();
+    @ApiModelProperty(notes = "Product Categoty status", example =  "true", required = true)
     private boolean status;
     public Category() {
     }
